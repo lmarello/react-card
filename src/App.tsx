@@ -1,6 +1,33 @@
 import { useState } from "react";
 import "./App.css";
 import { Card } from "./components";
+import styled from "styled-components";
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
+const FormContainer = styled.div`
+  margin-top: 20px;
+  width: 340px;
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  transition: opacity 0.3s ease-in-out;
+
+  input {
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+  }
+`;
 
 function App() {
   const [number, setNumber] = useState<string | undefined>(undefined);
@@ -16,33 +43,32 @@ function App() {
   };
 
   return (
-    <div className="container">
-      <div className="form-container">
-        <div className="input-group">
-          <label htmlFor="number">Number</label>
-          <input name="number" type="text" onChange={handleNumberChange} />
-        </div>
-        <div className="input-group">
-          <label htmlFor="holder">Holder</label>
-          <input name="holder" type="text" onChange={handleNameChange} />
-        </div>
-        <div className="input-group">
-          <label htmlFor="expiration">Expires end</label>
-          <input name="expiration" type="text" onChange={handleNameChange} />
-        </div>
-        <div className="input-group">
-          <label htmlFor="cvv">CVV</label>
+    <Container>
+      <Card number={number} name={name} cvvFocused={cvvFocused} />
+      <FormContainer>
+        <InputContainer>
+          <label>Number</label>
+          <input type="text" onChange={handleNumberChange} />
+        </InputContainer>
+        <InputContainer>
+          <label>Expires end</label>
+          <input type="text" onChange={() => {}} />
+        </InputContainer>
+        <InputContainer>
+          <label>Holder</label>
+          <input type="text" onChange={handleNameChange} />
+        </InputContainer>
+        <InputContainer>
+          <label>CVV</label>
           <input
-            name="cvv"
             type="text"
             onChange={handleNameChange}
             onFocus={() => setCvvFocused(true)}
             onBlur={() => setCvvFocused(false)}
           />
-        </div>
-      </div>
-      <Card number={number} name={name} cvvFocused={cvvFocused} />
-    </div>
+        </InputContainer>
+      </FormContainer>
+    </Container>
   );
 }
 

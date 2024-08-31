@@ -1,5 +1,22 @@
 import { useEffect, useState } from "react";
-import styles from "./Card.module.css";
+import {
+  CreditCardContainer,
+  CreditCard,
+  CardFront,
+  CardBack,
+  Chip,
+  CardNumber,
+  CardDetails,
+  CardHolder,
+  CardExpiry,
+  Stripe,
+  Cvv,
+  CvvLabel,
+  CvvNumber,
+  Issuer,
+  TextShadow,
+} from "./Card.styles";
+import Visa from "../../assets/visa.png";
 
 interface Props {
   number?: string;
@@ -28,39 +45,34 @@ export const Card = ({ cvvFocused, name, number }: Props) => {
   }, [number]);
 
   return (
-    <div className={styles.creditCardContainer}>
-      <div
-        className={`${styles.creditCard} ${
-          cvvFocused ? styles.creditCardFlip : ""
-        } `}
-      >
-        <div className={styles.cardFront}>
-          <div className={styles.chip}>
-            <div className={styles.chipLine}></div>
-            <div className={styles.chipLine}></div>
-            <div className={styles.chipLine}></div>
-            <div className={styles.chipLine}></div>
-            <div className={styles.chipMain}></div>
-          </div>
-          <div className={`${styles.cardNumber} ${styles.textShadow}`}>
-            {numberFormatted}
-          </div>
-          <div className={`${styles.cardDetails} ${styles.textShadow}`}>
-            <div className={styles.cardExpiry}>
-              EXP. END:
+    <CreditCardContainer>
+      <CreditCard style={cvvFocused ? { transform: "rotateY(180deg)" } : {}}>
+        <CardFront>
+          <Issuer src={Visa} alt="visa" />
+          <Chip>
+            <div className="chipLine"></div>
+            <div className="chipLine"></div>
+            <div className="chipLine"></div>
+            <div className="chipLine"></div>
+            <div className="chipMain"></div>
+          </Chip>
+          <CardNumber as={TextShadow}>{numberFormatted}</CardNumber>
+          <CardDetails as={TextShadow}>
+            <CardExpiry>
+              EXP
               <span>12/25</span>
-            </div>
-            <div className={styles.cardHolder}>{name || placeholders.name}</div>
-          </div>
-        </div>
-        <div className={styles.cardBack}>
-          <div className={styles.stripe}></div>
-          <div className={styles.cvv}>
-            <div className={`${styles.cvvLabel} ${styles.textShadow}`}>CVV</div>
-            <div className={`${styles.cvvNumber}`}>123</div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </CardExpiry>
+            <CardHolder>{name || placeholders.name}</CardHolder>
+          </CardDetails>
+        </CardFront>
+        <CardBack>
+          <Stripe />
+          <Cvv>
+            <CvvLabel as={TextShadow}>CVV</CvvLabel>
+            <CvvNumber>123</CvvNumber>
+          </Cvv>
+        </CardBack>
+      </CreditCard>
+    </CreditCardContainer>
   );
 };
