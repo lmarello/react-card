@@ -21,6 +21,16 @@ export const TextShadow = styled.div`
   -webkit-text-fill-color: transparent;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1),
     -1px -1px 2px rgba(255, 255, 255, 0.2);
+
+  /* &.focus {
+    color: #fff;
+    background: linear-gradient(135deg, #e0e0e0 0%, #b3b3b3 50%, #e0e0e0 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5),
+      -1px -1px 2px rgba(255, 255, 255, 0.2);
+  } */
 `;
 
 export const CreditCard = styled.div`
@@ -99,8 +109,8 @@ export const Chip = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
-  height: 40px;
+  width: 40px;
+  height: 30px;
   border-radius: 5px;
   background-image: linear-gradient(to bottom left, #ffecc7, #d0b978);
   overflow: hidden;
@@ -113,26 +123,26 @@ export const Chip = styled.div`
   }
 
   .chipLine:nth-child(1) {
-    top: 13px;
+    top: 10px;
   }
 
   .chipLine:nth-child(2) {
-    top: 20px;
+    top: 15px;
   }
 
   .chipLine:nth-child(3) {
-    top: 28px;
+    top: 20px;
   }
 
   .chipLine:nth-child(4) {
-    left: 25px;
+    left: 19px;
     width: 1px;
-    height: 50px;
+    height: 40px;
   }
 
   .chipMain {
-    width: 20px;
-    height: 25px;
+    width: 10px;
+    height: 15px;
     border: 1px solid #333;
     border-radius: 3px;
     background-image: linear-gradient(to bottom left, #efdbab, #e1cb94);
@@ -140,13 +150,51 @@ export const Chip = styled.div`
   }
 `;
 
+export const Rfid = styled.div`
+  position: relative;
+  top: -20px;
+  left: 25px;
+  width: 50px;
+  height: 50px;
+  rotate: 90deg;
+
+  .wave {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid #e8e8e8;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+  }
+
+  .wave:nth-child(1) {
+    width: 8px;
+    height: 8px;
+    top: 21px;
+    left: 21px;
+  }
+
+  .wave:nth-child(2) {
+    width: 20px;
+    height: 20px;
+    top: 15px;
+    left: 15px;
+  }
+
+  .wave:nth-child(3) {
+    width: 36px;
+    height: 36px;
+    top: 7px;
+    left: 7px;
+  }
+`;
+
 export const CardNumber = styled.div`
   position: relative;
-  top: 40px;
   text-align: left;
   font-size: 18px;
   letter-spacing: 2px;
-  margin-bottom: 50px;
+  margin-bottom: 10px;
 `;
 
 export const CardDetails = styled.div`
@@ -165,6 +213,7 @@ export const CardExpiry = styled.div`
 
   span {
     padding-left: 4px;
+    padding-bottom: 4px;
     font-size: 12px;
   }
 `;
@@ -193,7 +242,7 @@ export const CvvLabel = styled.div`
   font-size: 12px;
   position: absolute;
   top: -20px;
-  left: 260px;
+  right: 10px;
 `;
 
 export const CvvNumber = styled.div`
@@ -201,7 +250,7 @@ export const CvvNumber = styled.div`
   position: absolute;
   color: #000000;
   top: 5px;
-  left: 255px;
+  right: 10px;
   background: linear-gradient(135deg, #5c5c5c 0%, #444343 50%, #444343 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -209,9 +258,19 @@ export const CvvNumber = styled.div`
     -1px -1px 2px rgba(255, 255, 255, 0.3);
 `;
 
-export const Issuer = styled.img`
+const issuerPositions = {
+  mastercard: "0 0px",
+  visa: "-70px 0",
+};
+
+export const Issuer = styled.div`
   position: absolute;
-  width: 90px;
   bottom: 12px;
   right: 12px;
+  width: 69px;
+  height: 40px;
+  background-image: url("./public/issuers.png");
+  background-position: ${(props) => issuerPositions[props.issuer] || "70px 0"};
+  background-size: cover;
+  background-repeat: no-repeat;
 `;

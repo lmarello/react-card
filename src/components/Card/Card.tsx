@@ -1,39 +1,49 @@
 import { useEffect, useState } from "react";
 import {
-  CreditCardContainer,
-  CreditCard,
-  CardFront,
   CardBack,
-  Chip,
-  CardNumber,
   CardDetails,
-  CardHolder,
   CardExpiry,
-  Stripe,
+  CardFront,
+  CardHolder,
+  CardNumber,
+  Chip,
+  CreditCard,
+  CreditCardContainer,
   Cvv,
   CvvLabel,
   CvvNumber,
   Issuer,
+  Rfid,
+  Stripe,
   TextShadow,
 } from "./Card.styles";
-import Visa from "../../assets/visa.png";
+import { getIssuer } from "../../utils";
 
 interface Props {
   number?: string;
   name?: string;
-  cvvFocused: boolean;
+  cvv?: string;
+  expiration?: string;
+  inputFocused: "number" | "name" | "expiration" | "cvv" | null;
   placeholders?: {
     name: string;
   };
 }
 
 const placeholders = {
-  number: "****************",
-  name: "john doe",
-  cvv: "1225",
+  number: "1234567890123456",
+  name: "Peter Parker",
+  expiration: "12/25",
+  cvv: "111",
 };
 
-export const Card = ({ cvvFocused, name, number }: Props) => {
+export const Card = ({
+  cvv,
+  inputFocused,
+  expiration,
+  name,
+  number,
+}: Props) => {
   const [numberFormatted, setNumberFormatted] = useState(placeholders.number);
 
   useEffect(() => {
@@ -44,11 +54,15 @@ export const Card = ({ cvvFocused, name, number }: Props) => {
     }
   }, [number]);
 
+  const issuer = getIssuer(number || "");
+
   return (
     <CreditCardContainer>
-      <CreditCard style={cvvFocused ? { transform: "rotateY(180deg)" } : {}}>
+      <CreditCard
+        style={inputFocused === "cvv" ? { transform: "rotateY(180deg)" } : {}}
+      >
         <CardFront>
-          <Issuer src={Visa} alt="visa" />
+          <Issuer issuer={issuer} />
           <Chip>
             <div className="chipLine"></div>
             <div className="chipLine"></div>
@@ -56,20 +70,38 @@ export const Card = ({ cvvFocused, name, number }: Props) => {
             <div className="chipLine"></div>
             <div className="chipMain"></div>
           </Chip>
-          <CardNumber as={TextShadow}>{numberFormatted}</CardNumber>
+          <Rfid>
+            <div className="wave"></div>
+            <div className="wave"></div>
+            <div className="wave"></div>
+          </Rfid>
+          <CardNumber
+            as={TextShadow}
+            className={inputFocused === "number" ? "focus" : ""}
+          >
+            {numberFormatted}
+          </CardNumber>
           <CardDetails as={TextShadow}>
-            <CardExpiry>
+            <CardExpiry
+              as={TextShadow}
+              className={inputFocused === "expiration" ? "focus" : ""}
+            >
               EXP
-              <span>12/25</span>
+              <span>{expiration || placeholders.expiration}</span>
             </CardExpiry>
-            <CardHolder>{name || placeholders.name}</CardHolder>
+            <CardHolder
+              as={TextShadow}
+              className={inputFocused === "name" ? "focus" : ""}
+            >
+              {name || placeholders.name}
+            </CardHolder>
           </CardDetails>
         </CardFront>
         <CardBack>
           <Stripe />
           <Cvv>
             <CvvLabel as={TextShadow}>CVV</CvvLabel>
-            <CvvNumber>123</CvvNumber>
+            <CvvNumber>{cvv || placeholders.cvv}</CvvNumber>
           </Cvv>
         </CardBack>
       </CreditCard>
