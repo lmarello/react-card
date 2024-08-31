@@ -261,9 +261,14 @@ export const CvvNumber = styled.div`
 const issuerPositions = {
   mastercard: "0 0px",
   visa: "-70px 0",
+  unknown: "70px 0",
 };
 
-export const Issuer = styled.div`
+type IssuerProps = {
+  issuer: "mastercard" | "visa" | "unknown";
+};
+
+export const Issuer = styled.div<IssuerProps>`
   position: absolute;
   bottom: 12px;
   right: 12px;
